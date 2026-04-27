@@ -4,6 +4,7 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 import warnings
+import os 
 warnings.filterwarnings('ignore')
 
 # Set page configuration
@@ -151,19 +152,22 @@ st.markdown("""
 # Load data
 @st.cache_data
 def load_data():
+    base_path = os.path.join(os.path.dirname(__file__), "data")
+
     data_files = {
-        2015: 'd:\\AI work\\Dashboards\\World Happy ratio\\data\\2015.csv',
-        2016: 'd:\\AI work\\Dashboards\\World Happy ratio\\data\\2016.csv',
-        2017: 'd:\\AI work\\Dashboards\\World Happy ratio\\data\\2017.csv',
-        2018: 'd:\\AI work\\Dashboards\\World Happy ratio\\data\\2018.csv',
-        2019: 'd:\\AI work\\Dashboards\\World Happy ratio\\data\\2019.csv',
+        2015: os.path.join(base_path, "2015.csv"),
+        2016: os.path.join(base_path, "2016.csv"),
+        2017: os.path.join(base_path, "2017.csv"),
+        2018: os.path.join(base_path, "2018.csv"),
+        2019: os.path.join(base_path, "2019.csv"),
     }
+
     dfs = {}
     for year, filepath in data_files.items():
         df = pd.read_csv(filepath)
         dfs[year] = df
-    return dfs
 
+    return dfs
 @st.cache_data
 def standardize_data(dfs):
     # 2015
