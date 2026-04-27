@@ -15,14 +15,13 @@ st.set_page_config(
 # ---------------------------
 @st.cache_data
 def load_data():
-    base_path = "data"
     dfs = {}
 
     for year in range(2015, 2020):
-        filepath = os.path.join(base_path, f"{year}.csv")
+        filepath = f"{year}.csv"   # 👈 directly in root
 
         if not os.path.exists(filepath):
-            st.warning(f"Missing file: {filepath}")
+            st.warning(f"⚠️ Missing file: {filepath}")
             continue
 
         try:
@@ -30,14 +29,13 @@ def load_data():
             df.columns = df.columns.str.strip()
             dfs[year] = df
         except Exception as e:
-            st.error(f"Error loading {year}: {e}")
+            st.error(f"❌ Error loading {year}: {e}")
 
     if not dfs:
+        st.error("No data files found!")
         st.stop()
 
-    return dfs
-
-# ---------------------------
+    return dfs# ---------------------------
 # 🧠 STANDARDIZE DATA
 # ---------------------------
 @st.cache_data
